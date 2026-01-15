@@ -51,13 +51,13 @@ class _RestaurantHomePageState extends State<RestaurantHomePage> {
     menu.addMenuItem(MenuItem(
       itemId: 1,
       itemName: 'Burger',
-      price: 12.99,
+      price: 13.99,
       description: 'Juicy beef burger with fresh vegetables',
     ));
     menu.addMenuItem(MenuItem(
       itemId: 2,
       itemName: 'Pizza',
-      price: 18.99,
+      price: 20.99,
       description: 'Classic margherita pizza with mozzarella',
     ));
     menu.addMenuItem(MenuItem(
