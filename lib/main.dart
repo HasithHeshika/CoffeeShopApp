@@ -3,6 +3,7 @@ import 'models/menu.dart';
 import 'models/menu_item.dart';
 import 'models/order.dart';
 import 'models/customer.dart';
+import 'screens/payment_screen.dart';
 
 void main() {
   runApp(const RestaurantOrderApp());
@@ -97,7 +98,7 @@ class _RestaurantHomePageState extends State<RestaurantHomePage> {
     );
   }
 
-  void _completeOrder() {
+  void _completeOrder() async {
     if (currentOrder.items.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -108,18 +109,30 @@ class _RestaurantHomePageState extends State<RestaurantHomePage> {
       return;
     }
 
-    setState(() {
-      currentOrder.updateStatus('Completed');
-      orders.add(currentOrder);
-      _createNewOrder();
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Order completed successfully!'),
-        backgroundColor: Colors.green,
+    // Navigate to payment screen
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PaymentScreen(order: currentOrder),
       ),
     );
+
+    // If payment was successful
+    if (result == true && mounted) {
+      setState(() {
+        currentOrder.updateStatus('Completed');
+        orders.add(currentOrder);
+        _createNewOrder();
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Order completed successfully!'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 3),
+        ),
+      );
+    }
   }
 
   @override
@@ -177,7 +190,10 @@ class _RestaurantHomePageState extends State<RestaurantHomePage> {
                     ),
                     ElevatedButton(
                       onPressed: _completeOrder,
-                      child: const Text('Complete Order'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                      ),
+                      child: const Text('Proceed to Payment'),
                     ),
                   ],
                 ),
