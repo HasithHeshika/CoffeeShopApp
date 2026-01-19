@@ -56,7 +56,7 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
   Set<int> favoriteItemIds = {};
   String selectedCategory = 'All';
   bool hasUnreadNotifications = true;
-  
+
   final AuthService _authService = AuthService();
   final DatabaseService _databaseService = DatabaseService();
 
@@ -107,7 +107,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
       availableSizes: ['Single', 'Double'],
       sizeUpcharges: {'Double': 1.50},
       availableAddOns: [...extras],
-      imageUrl: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400',
     ));
 
     menu.addMenuItem(MenuItem(
@@ -117,7 +118,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
       description: 'Espresso with steamed milk and foam',
       category: 'Coffee',
       availableAddOns: [...milkOptions, ...extras],
-      imageUrl: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400',
     ));
 
     menu.addMenuItem(MenuItem(
@@ -127,7 +129,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
       description: 'Smooth espresso with steamed milk',
       category: 'Coffee',
       availableAddOns: [...milkOptions, ...extras],
-      imageUrl: 'https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=400',
     ));
 
     menu.addMenuItem(MenuItem(
@@ -137,7 +140,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
       description: 'Espresso with hot water',
       category: 'Coffee',
       availableAddOns: [...milkOptions, ...extras],
-      imageUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400',
     ));
 
     menu.addMenuItem(MenuItem(
@@ -147,7 +151,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
       description: 'Espresso, chocolate, and steamed milk',
       category: 'Coffee',
       availableAddOns: [...milkOptions, ...extras],
-      imageUrl: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400',
     ));
 
     menu.addMenuItem(MenuItem(
@@ -157,7 +162,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
       description: 'Espresso with vanilla, milk, and caramel',
       category: 'Coffee',
       availableAddOns: [...milkOptions, ...extras],
-      imageUrl: 'https://images.unsplash.com/photo-1599639957043-f3aa5c986398?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1599639957043-f3aa5c986398?w=400',
     ));
 
     // Cold drinks
@@ -168,7 +174,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
       description: 'Cold brewed coffee over ice',
       category: 'Cold Drinks',
       availableAddOns: [...milkOptions, ...extras],
-      imageUrl: 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=400',
     ));
 
     menu.addMenuItem(MenuItem(
@@ -178,7 +185,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
       description: 'Blended ice coffee drink',
       category: 'Cold Drinks',
       availableAddOns: [...extras],
-      imageUrl: 'https://images.unsplash.com/photo-1662047102608-a6f2e492411f?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1662047102608-a6f2e492411f?w=400',
     ));
 
     // Tea
@@ -192,7 +200,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
         const AddOn(name: 'Honey', price: 0.50, category: 'Sweetener'),
         const AddOn(name: 'Lemon', price: 0.25, category: 'Extra'),
       ],
-      imageUrl: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400',
     ));
 
     menu.addMenuItem(MenuItem(
@@ -202,7 +211,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
       description: 'Spiced tea with steamed milk',
       category: 'Tea',
       availableAddOns: [...milkOptions],
-      imageUrl: 'https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=400',
     ));
 
     // Pastries
@@ -215,7 +225,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
       availableSizes: ['Regular'],
       sizeUpcharges: {},
       availableAddOns: [],
-      imageUrl: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400',
     ));
 
     menu.addMenuItem(MenuItem(
@@ -227,7 +238,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
       availableSizes: ['Regular'],
       sizeUpcharges: {},
       availableAddOns: [],
-      imageUrl: 'https://images.unsplash.com/photo-1607958996333-41aef7caefaa?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1607958996333-41aef7caefaa?w=400',
     ));
 
     menu.addMenuItem(MenuItem(
@@ -239,7 +251,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
       availableSizes: ['Regular'],
       sizeUpcharges: {},
       availableAddOns: [],
-      imageUrl: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400',
     ));
 
     // Sandwiches
@@ -252,7 +265,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
       availableSizes: ['Regular'],
       sizeUpcharges: {},
       availableAddOns: [],
-      imageUrl: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400',
     ));
 
     menu.addMenuItem(MenuItem(
@@ -264,7 +278,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
       availableSizes: ['Regular'],
       sizeUpcharges: {},
       availableAddOns: [],
-      imageUrl: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400',
     ));
   }
 
@@ -301,7 +316,7 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
         context,
         MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
-      
+
       // Reload user data after login
       if (_authService.isLoggedIn()) {
         await _loadUserData();
@@ -491,7 +506,7 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                 ),
             ],
           ),
-          const SizedBox(width: 8),          // User profile / Sign in button
+          const SizedBox(width: 8), // User profile / Sign in button
           IconButton(
             icon: Icon(
               _authService.isLoggedIn() ? Icons.person : Icons.login,
@@ -576,7 +591,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
               }
             },
           ),
-          const SizedBox(width: 8),        ],
+          const SizedBox(width: 8),
+        ],
       ),
       body: Column(
         children: [
@@ -692,7 +708,7 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                       },
                     ),
                   ),
-                  
+
                   // Category Filter Chips
                   SizedBox(
                     height: 50,
@@ -708,7 +724,7 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                       ],
                     ),
                   ),
-                  
+
                   const SizedBox(height: 8),
                   const Text(
                     'Menu',
@@ -721,7 +737,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                   Expanded(
                     child: GridView.builder(
                       physics: const BouncingScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 5,
                         childAspectRatio: 1.0,
                         crossAxisSpacing: 6,
@@ -731,7 +748,7 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                       itemBuilder: (context, index) {
                         final item = _filteredMenuItems[index];
                         final isFavorite = favoriteItemIds.contains(index);
-                        
+
                         return Card(
                           elevation: 2,
                           shape: RoundedRectangleBorder(
@@ -755,7 +772,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                                         height: 70,
                                         width: double.infinity,
                                         fit: BoxFit.cover,
-                                        errorBuilder: (context, error, stackTrace) {
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
                                           return Container(
                                             height: 70,
                                             color: Colors.grey[300],
@@ -766,16 +784,22 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                                             ),
                                           );
                                         },
-                                        loadingBuilder: (context, child, loadingProgress) {
-                                          if (loadingProgress == null) return child;
+                                        loadingBuilder:
+                                            (context, child, loadingProgress) {
+                                          if (loadingProgress == null)
+                                            return child;
                                           return Container(
                                             height: 70,
                                             color: Colors.grey[200],
                                             child: Center(
                                               child: CircularProgressIndicator(
-                                                value: loadingProgress.expectedTotalBytes != null
-                                                    ? loadingProgress.cumulativeBytesLoaded /
-                                                        loadingProgress.expectedTotalBytes!
+                                                value: loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes!
                                                     : null,
                                               ),
                                             ),
@@ -791,8 +815,12 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                                         radius: 15,
                                         child: IconButton(
                                           icon: Icon(
-                                            isFavorite ? Icons.favorite : Icons.favorite_border,
-                                            color: isFavorite ? Colors.red : Colors.grey,
+                                            isFavorite
+                                                ? Icons.favorite
+                                                : Icons.favorite_border,
+                                            color: isFavorite
+                                                ? Colors.red
+                                                : Colors.grey,
                                             size: 16,
                                           ),
                                           padding: EdgeInsets.zero,
@@ -802,7 +830,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                                               await Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) => const LoginScreen(),
+                                                  builder: (context) =>
+                                                      const LoginScreen(),
                                                 ),
                                               );
                                               if (_authService.isLoggedIn()) {
@@ -821,7 +850,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                                             });
 
                                             // Save favorites to database
-                                            await _databaseService.saveFavorites(favoriteItemIds);
+                                            await _databaseService
+                                                .saveFavorites(favoriteItemIds);
                                           },
                                         ),
                                       ),
@@ -832,7 +862,8 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                                 Padding(
                                   padding: const EdgeInsets.all(4.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         item.itemName,
@@ -887,14 +918,19 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
 
     // Apply category filter
     if (selectedCategory != 'All') {
-      filtered = filtered.where((item) => item.category == selectedCategory).toList();
+      filtered =
+          filtered.where((item) => item.category == selectedCategory).toList();
     }
 
     // Apply search filter
     if (searchQuery.isNotEmpty) {
       filtered = filtered.where((item) {
-        return item.itemName.toLowerCase().contains(searchQuery.toLowerCase()) ||
-            item.description.toLowerCase().contains(searchQuery.toLowerCase()) ||
+        return item.itemName
+                .toLowerCase()
+                .contains(searchQuery.toLowerCase()) ||
+            item.description
+                .toLowerCase()
+                .contains(searchQuery.toLowerCase()) ||
             item.category.toLowerCase().contains(searchQuery.toLowerCase());
       }).toList();
     }

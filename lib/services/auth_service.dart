@@ -20,10 +20,10 @@ class AuthService {
         email: email,
         password: password,
       );
-      
+
       // Update display name
       await result.user?.updateDisplayName(name);
-      
+
       return null; // Success
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

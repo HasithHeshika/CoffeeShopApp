@@ -12,7 +12,7 @@ class DatabaseService {
   // Save user favorites
   Future<void> saveFavorites(Set<int> favoriteIds) async {
     if (userId == null) return;
-    
+
     await _firestore.collection('users').doc(userId).set({
       'favorites': favoriteIds.toList(),
     }, SetOptions(merge: true));
@@ -21,7 +21,7 @@ class DatabaseService {
   // Load user favorites
   Future<Set<int>> loadFavorites() async {
     if (userId == null) return {};
-    
+
     try {
       final doc = await _firestore.collection('users').doc(userId).get();
       if (doc.exists && doc.data()?['favorites'] != null) {
@@ -45,14 +45,17 @@ class DatabaseService {
         'status': order.status,
         'totalPrice': order.totalPrice,
         'timestamp': FieldValue.serverTimestamp(),
-        'items': order.items.map((item) => {
-          'itemName': item.menuItem.itemName,
-          'selectedSize': item.selectedSize,
-          'quantity': item.quantity,
-          'totalPrice': item.getTotalPrice(),
-          'addOns': item.selectedAddOns.map((addon) => addon.name).toList(),
-          'specialInstructions': item.specialInstructions,
-        }).toList(),
+        'items': order.items
+            .map((item) => {
+                  'itemName': item.menuItem.itemName,
+                  'selectedSize': item.selectedSize,
+                  'quantity': item.quantity,
+                  'totalPrice': item.getTotalPrice(),
+                  'addOns':
+                      item.selectedAddOns.map((addon) => addon.name).toList(),
+                  'specialInstructions': item.specialInstructions,
+                })
+            .toList(),
       };
 
       await _firestore
