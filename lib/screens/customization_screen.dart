@@ -282,7 +282,6 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
                   onPressed: _addToOrder,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.brown[700],
-                    padding: const EdgeInsets.symmetric(vertical: 16),
                     elevation: 2,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
