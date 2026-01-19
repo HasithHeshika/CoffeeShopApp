@@ -454,7 +454,7 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                       ),
                       content: Container(
                         decoration: BoxDecoration(
-                          color: Colors.brown[50]?.withOpacity(0.1),
+                          color: Colors.brown[50]!.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         padding: const EdgeInsets.all(8),
@@ -540,7 +540,7 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                     ),
                     content: Container(
                       decoration: BoxDecoration(
-                        color: Colors.brown[50]?.withOpacity(0.1),
+                        color: Colors.brown[50]!.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       padding: const EdgeInsets.all(12),
@@ -617,7 +617,7 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
             padding: const EdgeInsets.all(16),
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.brown[50]?.withOpacity(0.3),
+              color: Colors.brown[50]!.withOpacity(0.3),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.brown[200]!),
               boxShadow: [
@@ -1076,7 +1076,7 @@ class OrderHistoryPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  color: Colors.brown[50]?.withOpacity(0.2),
+                  color: Colors.brown[50]!.withOpacity(0.2),
                   elevation: 2,
                   shadowColor: Colors.brown.withOpacity(0.2),
                   child: Padding(
