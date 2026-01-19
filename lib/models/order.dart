@@ -5,29 +5,30 @@ class Order {
   final int orderId;
   double totalPrice = 0.0;
   String status = 'Pending';
-  final List<MenuItem> _items = [];
+  final List<CustomizedMenuItem> _items = [];
   final DateTime orderTime;
 
   Order({required this.orderId}) : orderTime = DateTime.now();
 
-  /// Add an item to the order
-  void addItem(MenuItem item) {
+  /// Add a customized item to the order
+  void addItem(CustomizedMenuItem item) {
     _items.add(item);
     _recalculateTotal();
   }
 
-  /// Remove an item from the order
-  bool removeItem(int itemId) {
-    final initialLength = _items.length;
-    _items.removeWhere((item) => item.itemId == itemId);
-    final removed = _items.length < initialLength;
-    if (removed) _recalculateTotal();
-    return removed;
+  /// Remove an item from the order by index
+  bool removeItemAt(int index) {
+    if (index >= 0 && index < _items.length) {
+      _items.removeAt(index);
+      _recalculateTotal();
+      return true;
+    }
+    return false;
   }
 
   /// Calculate the total price of the order
   double calculateTotal() {
-    return _items.fold(0.0, (sum, item) => sum + item.price);
+    return _items.fold(0.0, (sum, item) => sum + item.getTotalPrice());
   }
 
   /// Recalculate total when items change
@@ -66,9 +67,7 @@ class Order {
       buffer.writeln('  No items in order');
     } else {
       for (var item in _items) {
-        buffer.writeln(
-          '  - ${item.itemName}: \$${item.price.toStringAsFixed(2)}',
-        );
+        buffer.writeln('  - ${item.toString()}');
       }
     }
 
@@ -78,5 +77,5 @@ class Order {
   }
 
   /// Get list of ordered items
-  List<MenuItem> get items => List.unmodifiable(_items);
+  List<CustomizedMenuItem> get items => List.unmodifiable(_items);
 }

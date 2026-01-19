@@ -1,11 +1,11 @@
-import '../lib/models/menu.dart';
-import '../lib/models/menu_item.dart';
-import '../lib/models/order.dart';
-import '../lib/models/customer.dart';
-import '../lib/models/notification.dart';
-import '../lib/models/card_payment.dart';
-import '../lib/models/mobile_payment.dart';
-import '../lib/models/cash_payment.dart';
+import 'package:restaurant_order_system/models/menu.dart';
+import 'package:restaurant_order_system/models/menu_item.dart';
+import 'package:restaurant_order_system/models/order.dart';
+import 'package:restaurant_order_system/models/customer.dart';
+import 'package:restaurant_order_system/models/notification.dart';
+import 'package:restaurant_order_system/models/card_payment.dart';
+import 'package:restaurant_order_system/models/mobile_payment.dart';
+import 'package:restaurant_order_system/models/cash_payment.dart';
 
 /// Main entry point demonstrating the restaurant order system
 void main() {

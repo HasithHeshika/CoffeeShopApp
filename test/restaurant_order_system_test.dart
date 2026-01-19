@@ -1,31 +1,106 @@
+import 'package:flutter_test/flutter_test.dart';
 import 'package:restaurant_order_system/restaurant_order_system.dart';
-import 'package:test/test.dart';
 
 void main() {
   group('MenuItem Tests', () {
     test('should create a menu item with correct properties', () {
       final item = MenuItem(
         itemId: 1,
-        itemName: 'Test Pizza',
-        price: 15.99,
-        description: 'A delicious test pizza',
+        itemName: 'Cappuccino',
+        price: 4.50,
+        description: 'Espresso with steamed milk and foam',
+        category: 'Coffee',
       );
 
       expect(item.itemId, equals(1));
-      expect(item.itemName, equals('Test Pizza'));
-      expect(item.price, equals(15.99));
-      expect(item.description, equals('A delicious test pizza'));
+      expect(item.itemName, equals('Cappuccino'));
+      expect(item.price, equals(4.50));
+      expect(item.description, equals('Espresso with steamed milk and foam'));
+      expect(item.category, equals('Coffee'));
+    });
+
+    test('should calculate price with size upcharge', () {
+      final item = MenuItem(
+        itemId: 1,
+        itemName: 'Latte',
+        price: 4.99,
+        description: 'Smooth espresso with steamed milk',
+        category: 'Coffee',
+        availableSizes: ['Small', 'Medium', 'Large'],
+        sizeUpcharges: {'Medium': 1.0, 'Large': 2.0},
+      );
+
+      expect(item.getPriceForSize('Small'), equals(4.99));
+      expect(item.getPriceForSize('Medium'), equals(5.99));
+      expect(item.getPriceForSize('Large'), equals(6.99));
     });
 
     test('should return correct string representation', () {
       final item = MenuItem(
         itemId: 1,
-        itemName: 'Test Pizza',
-        price: 15.99,
-        description: 'A delicious test pizza',
+        itemName: 'Espresso',
+        price: 3.50,
+        description: 'Rich and bold espresso shot',
+        category: 'Coffee',
       );
 
-      expect(item.toString(), equals('Test Pizza - \$15.99'));
+      expect(item.toString(), equals('Espresso - \$3.50'));
+    });
+  });
+
+  group('CustomizedMenuItem Tests', () {
+    test('should calculate total price with add-ons', () {
+      final menuItem = MenuItem(
+        itemId: 1,
+        itemName: 'Latte',
+        price: 4.99,
+        description: 'Smooth espresso with steamed milk',
+        category: 'Coffee',
+        availableAddOns: [
+          const AddOn(name: 'Extra Shot', price: 1.0, category: 'Extra Shot'),
+          const AddOn(name: 'Oat Milk', price: 0.75, category: 'Milk'),
+        ],
+      );
+
+      final customizedItem = CustomizedMenuItem(
+        menuItem: menuItem,
+        selectedSize: 'Medium',
+        selectedAddOns: [
+          const AddOn(name: 'Extra Shot', price: 1.0, category: 'Extra Shot'),
+          const AddOn(name: 'Oat Milk', price: 0.75, category: 'Milk'),
+        ],
+        quantity: 2,
+      );
+
+      // Base: 4.99 + Medium upcharge: 1.0 + Extra Shot: 1.0 + Oat Milk: 0.75 = 7.74
+      // Times 2: 15.48
+      expect(customizedItem.getTotalPrice(), equals(15.48));
+    });
+
+    test('should generate correct description', () {
+      final menuItem = MenuItem(
+        itemId: 1,
+        itemName: 'Cappuccino',
+        price: 4.50,
+        description: 'Espresso with steamed milk and foam',
+        category: 'Coffee',
+      );
+
+      final customizedItem = CustomizedMenuItem(
+        menuItem: menuItem,
+        selectedSize: 'Large',
+        selectedAddOns: [
+          const AddOn(
+              name: 'Vanilla Syrup', price: 0.50, category: 'Sweetener'),
+        ],
+        specialInstructions: 'Extra hot',
+        quantity: 1,
+      );
+
+      final description = customizedItem.getDescription();
+      expect(description, contains('Cappuccino (Large)'));
+      expect(description, contains('Vanilla Syrup'));
+      expect(description, contains('Extra hot'));
     });
   });
 
@@ -121,22 +196,41 @@ void main() {
 
   group('Order Tests', () {
     late Order order;
-    late MenuItem pizza;
-    late MenuItem burger;
+    late CustomizedMenuItem customCappuccino;
+    late CustomizedMenuItem customLatte;
 
     setUp(() {
       order = Order(orderId: 1);
-      pizza = MenuItem(
+
+      final cappuccino = MenuItem(
         itemId: 1,
-        itemName: 'Pizza',
-        price: 12.99,
-        description: 'Delicious pizza',
+        itemName: 'Cappuccino',
+        price: 4.50,
+        description: 'Espresso with steamed milk and foam',
+        category: 'Coffee',
       );
-      burger = MenuItem(
+
+      final latte = MenuItem(
         itemId: 2,
-        itemName: 'Burger',
-        price: 8.99,
-        description: 'Tasty burger',
+        itemName: 'Latte',
+        price: 4.99,
+        description: 'Smooth espresso with steamed milk',
+        category: 'Coffee',
+      );
+
+      customCappuccino = CustomizedMenuItem(
+        menuItem: cappuccino,
+        selectedSize: 'Medium',
+        quantity: 1,
+      );
+
+      customLatte = CustomizedMenuItem(
+        menuItem: latte,
+        selectedSize: 'Large',
+        selectedAddOns: [
+          const AddOn(name: 'Extra Shot', price: 1.0, category: 'Extra Shot'),
+        ],
+        quantity: 2,
       );
     });
 
@@ -148,28 +242,31 @@ void main() {
     });
 
     test('should add items to order and calculate total', () {
-      order.addItem(pizza);
-      order.addItem(burger);
+      order.addItem(customCappuccino);
+      order.addItem(customLatte);
 
       expect(order.items.length, equals(2));
-      expect(order.totalPrice, equals(21.98));
+      // Cappuccino Medium: 4.50 + 1.0 = 5.50
+      // Latte Large x2: (4.99 + 2.0 + 1.0) * 2 = 15.98
+      // Total: 5.50 + 15.98 = 21.48
+      expect(order.totalPrice, equals(21.48));
     });
 
-    test('should remove items from order and recalculate total', () {
-      order.addItem(pizza);
-      order.addItem(burger);
-      expect(order.totalPrice, equals(21.98));
+    test('should remove items from order by index and recalculate total', () {
+      order.addItem(customCappuccino);
+      order.addItem(customLatte);
+      expect(order.totalPrice, equals(21.48));
 
-      final removed = order.removeItem(1);
+      final removed = order.removeItemAt(0);
       expect(removed, isTrue);
       expect(order.items.length, equals(1));
-      expect(order.totalPrice, equals(8.99));
+      expect(order.totalPrice, equals(15.98));
     });
 
-    test('should return false when removing non-existent item', () {
-      order.addItem(pizza);
+    test('should return false when removing with invalid index', () {
+      order.addItem(customCappuccino);
 
-      final removed = order.removeItem(999);
+      final removed = order.removeItemAt(999);
       expect(removed, isFalse);
       expect(order.items.length, equals(1));
     });
@@ -192,11 +289,11 @@ void main() {
     });
 
     test('should calculate total correctly', () {
-      order.addItem(pizza);
-      order.addItem(burger);
+      order.addItem(customCappuccino);
+      order.addItem(customLatte);
 
       final total = order.calculateTotal();
-      expect(total, equals(21.98));
+      expect(total, equals(21.48));
       expect(total, equals(order.totalPrice));
     });
   });
@@ -230,7 +327,12 @@ void main() {
 
     test('should place an order successfully', () {
       final order = Order(orderId: 1);
-      order.addItem(pizza);
+      final customPizza = CustomizedMenuItem(
+        menuItem: pizza,
+        selectedSize: 'Regular',
+        quantity: 1,
+      );
+      order.addItem(customPizza);
 
       customer.placeOrder(order: order);
       expect(order.status, equals('Confirmed'));

@@ -15,15 +15,23 @@ class Customer {
 
   /// Browse available menu
   void browseMenu(Menu menu) {
-    print('\n${name} is browsing the menu...');
+    print('\n$name is browsing the menu...');
     menu.displayMenu();
   }
 
   /// Customize an order by adding items
   void customizeOrder({required Order order, required List<MenuItem> items}) {
-    print('\n${name} is customizing order #${order.orderId}...');
+    print('\n$name is customizing order #${order.orderId}...');
     for (var item in items) {
-      order.addItem(item);
+      // Create a basic customized item with default options
+      final customizedItem = CustomizedMenuItem(
+        menuItem: item,
+        selectedSize: item.availableSizes.isNotEmpty
+            ? item.availableSizes.first
+            : 'Regular',
+        quantity: 1,
+      );
+      order.addItem(customizedItem);
       print('Added: ${item.itemName}');
     }
   }
@@ -37,20 +45,20 @@ class Customer {
 
     _orderHistory.add(order);
     order.updateStatus('Confirmed');
-    print('\n✅ Order #${order.orderId} has been placed by ${name}');
+    print('\n✅ Order #${order.orderId} has been placed by $name');
     print('Total: \$${order.totalPrice.toStringAsFixed(2)}');
   }
 
   /// Make a payment for an order
   bool makePayment({required Payment payment}) {
-    print('\n${name} is making a payment...');
+    print('\n$name is making a payment...');
     return payment.processPayment();
   }
 
   /// Receive a notification
   void receiveNotification(String message) {
     _notifications.add(message);
-    print('📬 ${name} received: "$message"');
+    print('📬 $name received: "$message"');
   }
 
   /// View order history
