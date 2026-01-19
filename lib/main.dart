@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'models/menu.dart';
 import 'models/menu_item.dart';
 import 'models/order.dart';
 import 'screens/customization_screen.dart';
 import 'screens/payment_screen.dart';
+import 'screens/login_screen.dart';
+import 'services/auth_service.dart';
+import 'services/database_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: 'AIzaSyDemoKey-ReplaceWithYourActualKey',
+      appId: '1:123456789:web:abcdef123456',
+      messagingSenderId: '123456789',
+      projectId: 'coffee-shop-app',
+      storageBucket: 'coffee-shop-app.appspot.com',
+    ),
+  );
   runApp(const RestaurantOrderApp());
 }
 
@@ -42,12 +56,25 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
   Set<int> favoriteItemIds = {};
   String selectedCategory = 'All';
   bool hasUnreadNotifications = true;
+  
+  final AuthService _authService = AuthService();
+  final DatabaseService _databaseService = DatabaseService();
 
   @override
   void initState() {
     super.initState();
     _initializeMenu();
     _createNewOrder();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    if (_authService.isLoggedIn()) {
+      final favorites = await _databaseService.loadFavorites();
+      setState(() {
+        favoriteItemIds = favorites;
+      });
+    }
   }
 
   void _initializeMenu() {
@@ -268,6 +295,21 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
   }
 
   void _completeOrder() async {
+    if (!_authService.isLoggedIn()) {
+      // Show login screen if not authenticated
+      await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
+      
+      // Reload user data after login
+      if (_authService.isLoggedIn()) {
+        await _loadUserData();
+      } else {
+        return; // User didn't log in, cancel order
+      }
+    }
+
     if (currentOrder.items.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -290,6 +332,12 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
       setState(() {
         currentOrder.updateStatus('Preparing');
         orders.add(currentOrder);
+      });
+
+      // Save order to database
+      await _databaseService.saveOrder(currentOrder);
+
+      setState(() {
         _createNewOrder();
       });
 
@@ -443,8 +491,92 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                 ),
             ],
           ),
-          const SizedBox(width: 8),
-        ],
+          const SizedBox(width: 8),          // User profile / Sign in button
+          IconButton(
+            icon: Icon(
+              _authService.isLoggedIn() ? Icons.person : Icons.login,
+              size: 28,
+              color: Colors.white,
+            ),
+            onPressed: () async {
+              if (_authService.isLoggedIn()) {
+                // Show profile menu
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    title: Row(
+                      children: [
+                        Icon(Icons.person, color: Colors.brown[700]),
+                        const SizedBox(width: 8),
+                        const Text('Profile'),
+                      ],
+                    ),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Welcome, ${_authService.getUserName()}!',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Text('Email: ${_authService.currentUser?.email}'),
+                      ],
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () async {
+                          await _authService.signOut();
+                          setState(() {
+                            favoriteItemIds.clear();
+                          });
+                          if (mounted) {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Signed out successfully'),
+                              ),
+                            );
+                          }
+                        },
+                        child: Text(
+                          'Sign Out',
+                          style: TextStyle(color: Colors.red[700]),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text(
+                          'Close',
+                          style: TextStyle(color: Colors.brown[700]),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                // Navigate to login screen
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                );
+                // Reload data after login
+                if (_authService.isLoggedIn()) {
+                  await _loadUserData();
+                  setState(() {});
+                }
+              }
+            },
+          ),
+          const SizedBox(width: 8),        ],
       ),
       body: Column(
         children: [
@@ -664,7 +796,22 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                                             size: 16,
                                           ),
                                           padding: EdgeInsets.zero,
-                                          onPressed: () {
+                                          onPressed: () async {
+                                            if (!_authService.isLoggedIn()) {
+                                              // Prompt user to login
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => const LoginScreen(),
+                                                ),
+                                              );
+                                              if (_authService.isLoggedIn()) {
+                                                await _loadUserData();
+                                                setState(() {});
+                                              }
+                                              return;
+                                            }
+
                                             setState(() {
                                               if (isFavorite) {
                                                 favoriteItemIds.remove(index);
@@ -672,6 +819,9 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                                                 favoriteItemIds.add(index);
                                               }
                                             });
+
+                                            // Save favorites to database
+                                            await _databaseService.saveFavorites(favoriteItemIds);
                                           },
                                         ),
                                       ),
