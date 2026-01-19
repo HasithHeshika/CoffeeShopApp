@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/menu_item.dart';
-import '../models/order.dart';
+import '../models/order.dart' as app_models;
 
 class DatabaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -35,7 +35,7 @@ class DatabaseService {
   }
 
   // Save order to database
-  Future<void> saveOrder(Order order) async {
+  Future<void> saveOrder(app_models.Order order) async {
     if (userId == null) return;
 
     try {

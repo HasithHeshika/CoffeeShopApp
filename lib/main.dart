@@ -13,11 +13,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
-      apiKey: 'AIzaSyDemoKey-ReplaceWithYourActualKey',
-      appId: '1:123456789:web:abcdef123456',
-      messagingSenderId: '123456789',
-      projectId: 'coffee-shop-app',
-      storageBucket: 'coffee-shop-app.appspot.com',
+      apiKey: 'AIzaSyC1xpNLXMvnXuv0-5eRG4NLLKQUtJUGY_w',
+      appId: '1:566874315355:web:c88cdf54c7f798f845fd7e',
+      messagingSenderId: '566874315355',
+      projectId: 'coffee-shop-app-d8513',
+      storageBucket: 'coffee-shop-app-d8513.firebasestorage.app',
     ),
   );
   runApp(const RestaurantOrderApp());
