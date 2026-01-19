@@ -82,186 +82,185 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                  // Item description
-                  Text(
-                    widget.menuItem.itemName,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    widget.menuItem.description,
-                    style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                  ),
-                  const SizedBox(height: 24),
+                              // Item description
+                              Text(
+                                widget.menuItem.itemName,
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                widget.menuItem.description,
+                                style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                              ),
+                              const SizedBox(height: 24),
 
-                  // Size selection
-                  if (widget.menuItem.availableSizes.isNotEmpty &&
-                      widget.menuItem.availableSizes.length > 1) ...[
-                    const Text(
-                      'Size',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 8,
-                      children: widget.menuItem.availableSizes.map((size) {
-                        final isSelected = selectedSize == size;
-                        final upcharge =
-                            widget.menuItem.sizeUpcharges[size] ?? 0.0;
-                        return ChoiceChip(
-                          label: Text(
-                            upcharge > 0
-                                ? '$size (+\$${upcharge.toStringAsFixed(2)})'
-                                : size,
+                              // Size selection
+                              if (widget.menuItem.availableSizes.isNotEmpty &&
+                                  widget.menuItem.availableSizes.length > 1) ...[
+                                const Text(
+                                  'Size',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Wrap(
+                                  spacing: 8,
+                                  children: widget.menuItem.availableSizes.map((size) {
+                                    final isSelected = selectedSize == size;
+                                    final upcharge =
+                                        widget.menuItem.sizeUpcharges[size] ?? 0.0;
+                                    return ChoiceChip(
+                                      label: Text(
+                                        upcharge > 0
+                                            ? '$size (+\$${upcharge.toStringAsFixed(2)})'
+                                            : size,
+                                      ),
+                                      selected: isSelected,
+                                      onSelected: (selected) {
+                                        if (selected) {
+                                          setState(() {
+                                            selectedSize = size;
+                                          });
+                                        }
+                                      },
+                                      selectedColor: Colors.brown[300],
+                                    );
+                                  }).toList(),
+                                ),
+                                const SizedBox(height: 24),
+                              ],
+
+                              // Add-ons
+                              if (widget.menuItem.availableAddOns.isNotEmpty) ...[
+                                const Text(
+                                  'Customize',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                ...widget.menuItem.availableAddOns.map((addOn) {
+                                  final isSelected = selectedAddOns.contains(addOn);
+                                  return CheckboxListTile(
+                                    title: Text(addOn.name),
+                                    subtitle: Text(
+                                      addOn.price > 0
+                                          ? '+\$${addOn.price.toStringAsFixed(2)}'
+                                          : 'Free',
+                                    ),
+                                    value: isSelected,
+                                    onChanged: (checked) {
+                                      setState(() {
+                                        if (checked == true) {
+                                          selectedAddOns.add(addOn);
+                                        } else {
+                                          selectedAddOns.remove(addOn);
+                                        }
+                                      });
+                                    },
+                                    activeColor: Colors.brown[700],
+                                  );
+                                }).toList(),
+                                const SizedBox(height: 24),
+                              ],
+
+                              // Special instructions
+                              const Text(
+                                'Special Instructions',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              TextField(
+                                controller: specialInstructionsController,
+                                decoration: InputDecoration(
+                                  hintText: 'e.g., Extra hot, Less ice...',
+                                  filled: true,
+                                  fillColor: Colors.grey[50],
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 18,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey[300]!,
+                                      width: 1.0,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: BorderSide(
+                                      color: Colors.brown[700]!,
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                ),
+                                maxLines: 3,
+                              ),
+                              const SizedBox(height: 24),
+
+                              // Quantity
+                              const Text(
+                                'Quantity',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.remove_circle_outline),
+                                    onPressed: quantity > 1
+                                        ? () {
+                                            setState(() {
+                                              quantity--;
+                                            });
+                                          }
+                                        : null,
+                                    iconSize: 32,
+                                  ),
+                                  Text(
+                                    '$quantity',
+                                    style: const TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.add_circle_outline),
+                                    onPressed: () {
+                                      setState(() {
+                                        quantity++;
+                                      });
+                                    },
+                                    iconSize: 32,
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          selected: isSelected,
-                          onSelected: (selected) {
-                            if (selected) {
-                              setState(() {
-                                selectedSize = size;
-                              });
-                            }
-                          },
-                          selectedColor: Colors.brown[300],
-                        );
-                      }).toList(),
-                    ),
-                    const SizedBox(height: 24),
-                  ],
-
-                  // Add-ons
-                  if (widget.menuItem.availableAddOns.isNotEmpty) ...[
-                    const Text(
-                      'Customize',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    ...widget.menuItem.availableAddOns.map((addOn) {
-                      final isSelected = selectedAddOns.contains(addOn);
-                      return CheckboxListTile(
-                        title: Text(addOn.name),
-                        subtitle: Text(
-                          addOn.price > 0
-                              ? '+\$${addOn.price.toStringAsFixed(2)}'
-                              : 'Free',
-                        ),
-                        value: isSelected,
-                        onChanged: (checked) {
-                          setState(() {
-                            if (checked == true) {
-                              selectedAddOns.add(addOn);
-                            } else {
-                              selectedAddOns.remove(addOn);
-                            }
-                          });
-                        },
-                        activeColor: Colors.brown[700],
-                      );
-                    }).toList(),
-                    const SizedBox(height: 24),
-                  ],
-
-                  // Special instructions
-                  const Text(
-                    'Special Instructions',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: specialInstructionsController,
-                    decoration: InputDecoration(
-                      hintText: 'e.g., Extra hot, Less ice...',
-                      filled: true,
-                      fillColor: Colors.grey[50],
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 18,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                          color: Colors.grey[300]!,
-                          width: 1.0,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                          color: Colors.brown[700]!,
-                          width: 1.5,
                         ),
                       ),
                     ),
-                    maxLines: 3,
                   ),
-                  const SizedBox(height: 24),
-
-                  // Quantity
-                  const Text(
-                    'Quantity',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.remove_circle_outline),
-                        onPressed: quantity > 1
-                            ? () {
-                                setState(() {
-                                  quantity--;
-                                });
-                              }
-                            : null,
-                        iconSize: 32,
-                      ),
-                      Text(
-                        '$quantity',
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.add_circle_outline),
-                        onPressed: () {
-                          setState(() {
-                            quantity++;
-                          });
-                        },
-                        iconSize: 32,
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-      ),
-    ),
-  ),
-),
-),
-          // Add to order button
+            // Add to order button
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
