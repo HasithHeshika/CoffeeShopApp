@@ -441,6 +441,7 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
+                      backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -451,25 +452,32 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                           const Text('Notifications'),
                         ],
                       ),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildNotificationItem(
-                            '☕ Welcome!',
-                            'Get 10% off your first order today!',
-                          ),
-                          const Divider(),
-                          _buildNotificationItem(
-                            '🎉 New Item',
-                            'Try our new Caramel Macchiato!',
-                          ),
-                          const Divider(),
-                          _buildNotificationItem(
-                            '⏰ Limited Time',
-                            'Happy Hour: Buy 1 Get 1 Free from 2-4 PM',
-                          ),
-                        ],
+                      content: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.brown[50]?.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: const EdgeInsets.all(8),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildNotificationItem(
+                              '☕ Welcome!',
+                              'Get 10% off your first order today!',
+                            ),
+                            const Divider(),
+                            _buildNotificationItem(
+                              '🎉 New Item',
+                              'Try our new Caramel Macchiato!',
+                            ),
+                            const Divider(),
+                            _buildNotificationItem(
+                              '⏰ Limited Time',
+                              'Happy Hour: Buy 1 Get 1 Free from 2-4 PM',
+                            ),
+                          ],
+                        ),
                       ),
                       actions: [
                         TextButton(
@@ -519,6 +527,7 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
+                    backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -529,20 +538,27 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                         const Text('Profile'),
                       ],
                     ),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Welcome, ${_authService.getUserName()}!',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                    content: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.brown[50]?.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Welcome, ${_authService.getUserName()}!',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 16),
-                        Text('Email: ${_authService.currentUser?.email}'),
-                      ],
+                          const SizedBox(height: 16),
+                          Text('Email: ${_authService.currentUser?.email}'),
+                        ],
+                      ),
                     ),
                     actions: [
                       TextButton(
@@ -601,9 +617,17 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
             padding: const EdgeInsets.all(16),
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.grey[100],
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.grey[300]!),
+              color: Colors.brown[50]?.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.brown[200]!),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.brown.withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -663,6 +687,15 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                     ),
                     ElevatedButton(
                       onPressed: _completeOrder,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.brown[700],
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
                       child: const Text('Complete Order'),
                     ),
                   ],
@@ -695,11 +728,26 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                                 },
                               )
                             : null,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
                         filled: true,
-                        fillColor: Colors.grey[100],
+                        fillColor: Colors.grey[50],
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: Colors.grey[300]!,
+                            width: 1.0,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: Colors.brown[700]!,
+                            width: 1.5,
+                          ),
+                        ),
                       ),
                       onChanged: (value) {
                         setState(() {
@@ -750,13 +798,15 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                         final isFavorite = favoriteItemIds.contains(index);
 
                         return Card(
-                          elevation: 2,
+                          elevation: 4,
+                          shadowColor: Colors.brown.withOpacity(0.2),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(12),
                           ),
                           child: InkWell(
                             onTap: () => _addItemToOrder(item),
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(12),
+                            splashColor: Colors.brown.withOpacity(0.1),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -765,7 +815,7 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
                                   children: [
                                     ClipRRect(
                                       borderRadius: const BorderRadius.vertical(
-                                        top: Radius.circular(10),
+                                        top: Radius.circular(12),
                                       ),
                                       child: Image.network(
                                         item.imageUrl,
@@ -907,6 +957,9 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
             ),
           );
         },
+        backgroundColor: Colors.brown[700],
+        foregroundColor: Colors.white,
+        elevation: 4,
         child: const Icon(Icons.history),
       ),
     );
@@ -951,8 +1004,12 @@ class _CoffeeShopHomePageState extends State<CoffeeShopHomePage> {
             selectedCategory = category;
           });
         },
-        backgroundColor: Colors.grey[200],
-        selectedColor: Colors.brown[300],
+        backgroundColor: Colors.grey[50],
+        selectedColor: Colors.brown[700],
+        elevation: isSelected ? 2 : 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
         labelStyle: TextStyle(
           color: isSelected ? Colors.white : Colors.black87,
           fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
@@ -994,8 +1051,17 @@ class OrderHistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.brown[800]!, Colors.brown[600]!],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
         title: const Text('Order History'),
-        backgroundColor: Colors.orange,
       ),
       body: orders.isEmpty
           ? const Center(
@@ -1007,6 +1073,12 @@ class OrderHistoryPage extends StatelessWidget {
                 final order = orders[index];
                 return Card(
                   margin: const EdgeInsets.all(8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  color: Colors.brown[50]?.withOpacity(0.2),
+                  elevation: 2,
+                  shadowColor: Colors.brown.withOpacity(0.2),
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
