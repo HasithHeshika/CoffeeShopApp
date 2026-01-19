@@ -54,14 +54,34 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
         title: Text(widget.menuItem.itemName),
         backgroundColor: Colors.brown[700],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Colors.brown[800]!, Colors.brown[600]!],
+          ),
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: SafeArea(
+                child: Center(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(24),
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 450),
+                      child: Card(
+                        elevation: 12,
+                        shadowColor: Colors.brown.withOpacity(0.5),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(40),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
                   // Item description
                   Text(
                     widget.menuItem.itemName,
@@ -161,9 +181,31 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
                   const SizedBox(height: 8),
                   TextField(
                     controller: specialInstructionsController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       hintText: 'e.g., Extra hot, Less ice...',
-                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.grey[50],
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 18,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Colors.grey[300]!,
+                          width: 1.0,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Colors.brown[700]!,
+                          width: 1.5,
+                        ),
+                      ),
                     ),
                     maxLines: 3,
                   ),
@@ -213,6 +255,12 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
               ),
             ),
           ),
+        ),
+      ),
+    ),
+  ),
+),
+),
           // Add to order button
           Container(
             padding: const EdgeInsets.all(16),
@@ -230,13 +278,15 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
             child: SafeArea(
               child: SizedBox(
                 width: double.infinity,
+                height: 56,
                 child: ElevatedButton(
                   onPressed: _addToOrder,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.brown[700],
                     padding: const EdgeInsets.symmetric(vertical: 16),
+                    elevation: 2,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                   child: Text(
@@ -255,4 +305,4 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
       ),
     );
   }
-}
+      }
